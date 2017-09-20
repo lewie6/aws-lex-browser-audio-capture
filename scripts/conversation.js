@@ -32,7 +32,7 @@
       this.renderer = renderer;
 
       this.messages = Object.freeze({
-        PASSIVE: 'Passive...',
+        PASSIVE: 'Click and talk',
         LISTENING: 'Listening...',
         SENDING: 'Sending...',
         SPEAKING: 'Speaking...'
@@ -92,6 +92,7 @@
           if (err) {
             console.log(err, err.stack);
           } else {
+            console.log(data)
             state.audioOutput = data;
             state.transition(new Speaking(state));
           }
@@ -105,6 +106,11 @@
       this.advanceConversation = function() {
         if (state.audioOutput.contentType === 'audio/mpeg') {
           audioControl.play(state.audioOutput.audioStream, function() {
+            if (state.audioOutput.dialogState === 'Fulfilled') {
+              state.message = state.messages.PASSIVE;
+              state.transition(new Initial(state));
+              return;
+            }
             state.renderer.prepCanvas();
             audioControl.startRecording(state.onSilence, state.renderer.visualizeAudioBuffer);
             state.transition(new Listening(state));
@@ -124,13 +130,18 @@
             botAlias: '$LATEST',
             botName: document.getElementById('BOT').value,
             contentType: 'audio/x-l16; sample-rate=16000',
-            userId: 'BlogPostTesting',
+            userId: document.getElementById('userId').value,
             accept: 'audio/mpeg'
           };
           lexruntime = new AWS.LexRuntime({
             region: 'us-east-1',
             credentials: new AWS.Credentials(document.getElementById('ACCESS_KEY_ID').value, document.getElementById('SECRET_KEY').value, null)
           });
+
+
+          audioControl.stopRecording();
+          conversation.renderer.clearCanvas();
+          conversation.transition(new Initial(conversation));
           conversation.advanceConversation();
         };
       } else {

@@ -58,6 +58,7 @@
      * Stops buffering audio.
      */
     var stopRecording = function() {
+      if (!recorder) return;
       recorder.stop();
     };
 
