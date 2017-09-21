@@ -126,6 +126,9 @@
         var conversation = new Conversation(message);
         message.textContent = conversation.message;
         document.getElementById('audio-control').onclick = function() {
+          if (conversation && conversation.message !== conversation.messages.PASSIVE) {
+            return;
+          }
           params = {
             botAlias: '$LATEST',
             botName: document.getElementById('BOT').value,
@@ -137,11 +140,9 @@
             region: 'us-east-1',
             credentials: new AWS.Credentials(document.getElementById('ACCESS_KEY_ID').value, document.getElementById('SECRET_KEY').value, null)
           });
-
-
-          audioControl.stopRecording();
-          conversation.renderer.clearCanvas();
-          conversation.transition(new Initial(conversation));
+          // audioControl.stopRecording();
+          // conversation.renderer.clearCanvas();
+          // conversation.transition(new Initial(conversation));
           conversation.advanceConversation();
         };
       } else {
