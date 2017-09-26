@@ -17,10 +17,19 @@
 /* globals requestAnimationFrame */
 (function(lexaudio) {
   'use strict';
-  var canvas = document.querySelector('.visualizer');
-  var canvasCtx = canvas.getContext('2d');
+
+  var canvas;
+  var canvasCtx;
   var drawVisual;
   var listening = true;
+
+  setTimeout(function(){
+    //this needs to load on doc ready!!
+    console.log('ready!!?')
+    canvas = document.querySelector('.visualizer');
+    canvasCtx = canvas.getContext('2d');
+    drawVisual;
+  }, 10000)
 
   /**
    * Will render an audio buffer as wave form. Right now, it expects 
@@ -62,10 +71,10 @@
           return;
         }
 
-        canvasCtx.fillStyle = 'rgb(249,250,252)';
+        canvasCtx.fillStyle = 'rgb(255,255,255)';
         canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
         canvasCtx.lineWidth = 1;
-        canvasCtx.strokeStyle = 'rgb(0,125,188)';
+        canvasCtx.strokeStyle = 'rgb(0,97,184)';
         canvasCtx.beginPath();
 
         var sliceWidth = WIDTH * 1.0 / bufferLength;

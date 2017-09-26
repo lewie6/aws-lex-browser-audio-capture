@@ -13,25 +13,28 @@
 </head>
 
 <body class="wrapper">
-    <div class="audio-control">
-        <p id="audio-control" class="white-circle">
-            <img src="images/lex.png">
-            <canvas class="visualizer"></canvas>
+    <div class="align-center audio-control">
+        <p id="audio-control" class="white-circle rel">
+            <i class="icon-applaud-bullhorn button button-circle txt-xxlarge marg zindex-hi rel "></i>
+            <canvas class="visualizer abs pos-right width100 height100"></canvas>
         </p>
-        <p><span id="message"></span></p>
+        <p><span id="message">Click and talk</span></p>
         <p>
-            <input type="text" id="ACCESS_KEY_ID" name="ACCESS KEY ID" placeholder="Access Key Id" value="" />
-        </p>
-        <p>
-            <input type="text" id="SECRET_KEY" name="SECRET KEY" placeholder="Secret Key" value="" />
+            <input type="text" id="ACCESS_KEY_ID" name="ACCESS KEY ID" placeholder="Access Key Id" value="AKIAIPOWCZB33SORP3MA">
         </p>
         <p>
-            <input type="text" id="BOT" name="BOT" placeholder="Bot Name" value="AskApplaud" />
+            <input type="text" id="SECRET_KEY" name="SECRET KEY" placeholder="Secret Key" value="hXnUEF8Kqa0k4RmrrdpH4ZGx0WmtVyLbo5/Q0TA8">
         </p>
         <p>
-            <input type="text" id="userId" name="userId" placeholder="User id" value="1234" />
+            <input type="text" id="BOT" name="BOT" placeholder="Bot Name" value="AskApplaud">
+        </p>
+        <p>
+            <input type="text" id="userId" name="userId" placeholder="User id" value="1234">
         </p>
     </div>
+
+
+
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.48.0.min.js"></script>
     <script type="text/javascript">
     window.lexaudio = {};
@@ -41,9 +44,13 @@
     <script src="scripts/renderer.js" type="text/javascript"></script>
     <script src="scripts/conversation.js" type="text/javascript"></script>
     <script type="text/javascript">
-    if (window.addEventListener) window.addEventListener("load", new lexaudio.example(), false);
-    else if (window.attachEvent) window.attachEvent("onload", setup(new lexaudio.example()));
-    else window.onload = new lexaudio.example();
+        //this needs to load on doc ready!!
+        setTimeout(function(){
+          console.log('ready!!?')
+          if (window.addEventListener) window.addEventListener("load", new lexaudio.example(), false);
+          else if (window.attachEvent) window.attachEvent("onload", setup(new lexaudio.example()));
+          else window.onload = new lexaudio.example();
+        }, 10000)
     </script>
 </body>
 

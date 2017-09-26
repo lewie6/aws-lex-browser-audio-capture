@@ -24,6 +24,9 @@
       audioControl = lexaudio.audioControl(),
       renderer = lexaudio.renderer();
 
+    console.log('message')
+    console.log(message)
+
     var Conversation = function(messageEl) {
       var message, audioInput, audioOutput, currentState;
 
@@ -126,6 +129,7 @@
         var conversation = new Conversation(message);
         message.textContent = conversation.message;
         document.getElementById('audio-control').onclick = function() {
+          console.log('click')
           if (conversation && conversation.message !== conversation.messages.PASSIVE) {
             return;
           }
