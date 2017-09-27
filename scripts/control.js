@@ -91,6 +91,7 @@
      * @param {?onPlaybackComplete} callback - Called when audio playback is complete.
      */
     var play = function(buffer, callback) {
+      var buffer = (buffer.data) ? new Uint8Array(buffer.data).buffer : buffer;
       var myBlob = new Blob([buffer], { type: 'audio/mpeg' });
       var audio = document.createElement('audio');
       var objectUrl = window.URL.createObjectURL(myBlob);
