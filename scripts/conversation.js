@@ -91,31 +91,37 @@
       state.message = state.messages.SENDING;
       this.advanceConversation = function() {
         params.inputStream = state.audioInput;
-        // we send this to mbaas, and mbaas sends it to lex using the creds in mbaas
-        request(
-          'POST',
-          'http://go.localhost:2000/api/lex',
-          {
-            body: state.audioInput,
-            headers: {
-              'Content-Type': 'audio/x-l16'
-            }
-          }
-        ).done(function (res) {
-          console.log(JSON.parse(res.getBody()))
-          state.audioOutput = JSON.parse(res.getBody());
-          state.transition(new Speaking(state));
-        });
 
+        if (document.getElementById('SEND_MBAAS').checked) {
+          console.log('sending to mbaas to handle')
+          // we send this to mbaas, and mbaas sends it to lex using the creds in mbaas
+          request(
+            'POST',
+            'http://go.localhost:2000/api/lex',
+            {
+              body: state.audioInput,
+              headers: {
+                'Content-Type': 'audio/x-l16'
+              }
+            }
+          ).done(function (res) {
+            console.log(JSON.parse(res.getBody()))
+            state.audioOutput = JSON.parse(res.getBody());
+            state.transition(new Speaking(state));
+          });
+          return;
+        }
+
+        console.log('sending straight to lex to handle')
         // or we can send it straight to lex using the creds in the ui text boxes
-        // lexruntime.postContent(params, function(err, data) {
-        //   if (err) {
-        //     console.log(err, err.stack);
-        //   } else {
-        //     state.audioOutput = data;
-        //     state.transition(new Speaking(state));
-        //   }
-        // });
+        lexruntime.postContent(params, function(err, data) {
+          if (err) {
+            console.log(err, err.stack);
+          } else {
+            state.audioOutput = data;
+            state.transition(new Speaking(state));
+          }
+        });
       }
     };
 

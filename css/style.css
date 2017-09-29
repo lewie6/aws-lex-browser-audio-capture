@@ -45,3 +45,8 @@
         left: 0;
         z-index: -1;
     }
+
+    /* Toggled State */
+    input[type=checkbox]:checked ~ div {
+        display: none;
+    }
